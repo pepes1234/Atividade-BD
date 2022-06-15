@@ -1,0 +1,133 @@
+CREATE DATABASE Trabalho
+
+CREATE TABLE Funcionarios(
+Codigo INT not null PRIMARY KEY Identity,
+PrimeiroNome VARCHAR(255),
+SegundoNome VARCHAR(255),
+UltimoNome VARCHAR(255),
+DataNasc DATE,
+CPF VARCHAR(15),
+RG VARCHAR(25),
+Endereco VARCHAR(255),
+CEP VARCHAR(10),
+Cidade VARCHAR(255),
+NumFone VARCHAR(16),
+CodigoDepartamento VARCHAR(255),
+Funcao VARCHAR(255),
+Salario DECIMAL(10, 2))
+
+CREATE TABLE Departamentos(
+Codigo INT not null PRIMARY KEY Identity,
+Nome VARCHAR(255),
+Localizacao VARCHAR(255),
+CodigoFuncionarioGerente VARCHAR(255))
+
+ALTER TABLE Departamentos
+ADD FOREIGN KEY (Codigo) REFERENCES Funcionarios
+
+
+INSERT INTO Funcionarios
+VALUES
+('João', 'Jhonny', 'Pepes', '24-05-2000', '111.548.979-82', '23432523', 'Rua Mateus Leme 834', '80530-010', 'Curitiba', '(41)999031208', '1', 'Limpeza', 900.00),
+('Jhonny', null, 'Arroz', '24-12-2400', '111.548.777-82', '9234923', 'Rua Mateus Leme 333', '77777-77', 'Recife', '(41)444031208', '2', 'Limpeza', 2500.00),
+('Alex', 'Roger', 'Significado', '24-05-4500', '321.548.979-82', '234324', 'Rua Jhonson 134', '15151-51', 'São Paulo', '(41)456431208', '3', 'Programador', 6500.00),
+('Axt', 'Sim,', 'Cabelo', '24-05-1900', '111.548.969-82', '999934', 'Rua  Tocantins 134', '22222-22', 'Curitiba', '(41)3945208', '4', 'Supervisor', 3500.00),
+('Jhonson', 'Depende', 'Regis', '24-05-3200', '111.768.979-82', '43546565', 'Paula Gomes 134', '55555-55', 'São Jose', '(41)453031208', '5', 'Telefonista', 7000.00),
+('Pericles', 'Copo', 'Alisson', '24-05-1000', '111.668.979-82', '3434355', 'Rua Mateus Leme 54', '11111-51', 'São Paulo', '(41)213031208', '1', 'Gerente', 11500.00);
+
+INSERT INTO Departamentos
+VALUES
+('Pessoal', 'Rua Sorriz 333', 1),
+('administrativo', 'Rua ok 333', 2),
+('comercial', 'Rua Ççççç 333', 3),
+('Recursos Humanos', 'Rua Samire 333', 4),
+('TI', 'Rua Suts 333', 5);
+
+SELECT*FROM Departamentos
+
+
+
+
+--Questão 1
+
+SELECT PrimeiroNome, UltimoNome FROM Funcionarios ORDER BY UltimoNome
+
+--Questão 2
+
+SELECT*FROM Funcionarios ORDER BY Cidade
+
+--Questão 3
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios WHERE Salario>1000.00 ORDER BY PrimeiroNome, SegundoNome, UltimoNome
+
+--Questão 4
+
+SELECT DataNasc, PrimeiroNome FROM Funcionarios ORDER BY DataNasc DESC
+
+--Questão 5
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome, NumFone FROM Funcionarios ORDER BY PrimeiroNome, SegundoNome, UltimoNome
+
+--Questão 6
+
+SELECT SUM(Salario) AS Salario_total FROM Funcionarios
+
+ --Questão 7
+
+SELECT PrimeiroNome, Nome ,Funcao FROM Funcionarios a JOIN Departamentos b ON A.Codigo = b.Codigo
+
+--Questão 8
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios WHERE Salario<1000.00 ORDER BY PrimeiroNome, SegundoNome, UltimoNome
+
+--Questão 9
+
+SELECT Nome, SUM(Salario) AS salarioTotal FROM Funcionarios a JOIN Departamentos b ON a.CodigoDepartamento = b.Codigo GROUP BY b.Nome
+
+--Questão 10
+
+SELECT Nome, PrimeiroNome FROM Funcionarios a JOIN Departamentos b ON  a.CodigoDepartamento = b.Codigo WHERE a.Funcao = 'Supervisor' ORDER BY B.Nome
+
+--Questão 11
+
+SELECT COUNT(Codigo) AS QuantidadeFuncionarios FROM Funcionarios
+
+-- Questão 12 
+
+SELECT AVG(Salario) AS SalarioMedio FROM Funcionarios
+
+--Questão 13
+
+
+SELECT Nome, MIN(Salario) AS MenorSalario FROM Funcionarios a JOIN Departamentos b ON a.CodigoDepartamento = b.Codigo GROUP BY b.Nome
+
+--Questão 14
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios WHERE (SegundoNome is null or SegundoNome = '')
+
+--Questão 15
+
+SELECT Nome, PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios a JOIN Departamentos b ON a.Codigo = b.Codigo ORDER BY b.Nome, a.PrimeiroNome, a.SegundoNome, a.UltimoNome 
+
+--Questão 16
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios WHERE Funcao = 'Programador' and Cidade = 'Recife'
+
+--Questão 17
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM FUNCIONARIOS 
+WHERE (codigoDepartamento = 1)
+
+--Questão 18
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome, Nome AS Departamento FROM Funcionarios a JOIN Departamentos b ON a.Codigo = b.Codigo WHERE Salario>5000
+
+--Questão 19
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome FROM Funcionarios WHERE Funcao = 'Telefonista' and Cidade = 'Curitiba'
+
+--Questão 20
+
+SELECT PrimeiroNome, SegundoNome, UltimoNome, Nome AS Departamento FROM Funcionarios a JOIN Departamentos b ON a.Codigo = b.Codigo WHERE Funcao = 'Programador' 
+
+
